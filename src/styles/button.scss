@@ -1,0 +1,29 @@
+.button {
+  height: 5rem;
+  border-radius: 0.8rem;
+  font-weight: 500;
+  background-color: var(--purple);
+  color: var(--white-details);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+  border: 0;
+
+  transition: background-color 200ms;
+
+  img {
+    margin-right: 0.8rem;
+  }
+
+  &:not(:disabled):hover {
+    background-color: var(--hover-purple);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
