@@ -5,20 +5,20 @@ import { createContext } from "react";
 import { firebase, auth } from '../services/firebase';
 
 type User = {
-  id: string,
-  name: string,
-  avatar: string,
+  id: string;
+  name: string;
+  avatar: string;
 }
 
 type AuthContextData = {
-  user: User | undefined,
-  signInWithGoogle: () => Promise<void>,
+  user: User | undefined;
+  signInWithGoogle: () => Promise<void>;
 }
 
 export const AuthContext = createContext({} as AuthContextData)
 
 type AuthProviderProps = {
-  children: ReactNode,
+  children: ReactNode;
 }
 
 export default function AuthContextProvider({ children }: AuthProviderProps) {
@@ -38,7 +38,7 @@ export default function AuthContextProvider({ children }: AuthProviderProps) {
         })
       }
     })
-    return unsubscribe();
+    return () => unsubscribe();
   }, []);
 
   async function signInWithGoogle() {

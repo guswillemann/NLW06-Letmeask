@@ -1,6 +1,11 @@
 :root {
   font-size: 10px;
+
+  @media screen and (min-width: 1200px) {
+    font-size: 12px;
+  }
 }
+
 
 * {
   margin: 0;

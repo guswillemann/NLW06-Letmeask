@@ -7,7 +7,7 @@ type AppThemeContextData = () => void;
 export const AppThemeContext = createContext({} as AppThemeContextData);
 
 type AppThemeProviderProps = {
-  children: ReactNode,
+  children: ReactNode;
 }
 
 export default function AppThemeContextProvider({ children }: AppThemeProviderProps) {
