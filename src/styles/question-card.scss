@@ -1,0 +1,45 @@
+.question-card {
+  background-color: var(--white-details);
+  color: var(--black);
+
+  padding: 1.6rem;
+  margin-bottom: 1rem;
+  border-radius: 0.8rem;
+
+  p {
+   font-size: 1.6rem;
+   font-weight: 500;
+  }
+  
+  .question-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 1.6rem;
+
+    button {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+    }
+  }
+
+  .author-info {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 3.2rem;
+      height: 3.2rem;
+      border-radius: 50%;
+    }
+
+    span {
+      margin-left: 0.8rem;
+      color: var(--gray-dark);
+      font-weight: 500;
+      font-size: 1.4rem;
+    }
+  }
+}

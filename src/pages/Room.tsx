@@ -7,7 +7,10 @@ import RoomCode from '../components/RoomCode';
 import useAuth from '../hooks/useAuth';
 import { database } from '../services/firebase';
 
+import likeImg from '../assets/images/like.svg';
+
 import '../styles/room.scss';
+import '../styles/question-card.scss';
 
 type RoomParams = {
   id: string;
@@ -68,7 +71,7 @@ export default function Room() {
     if (!user) throw new Error('You must be logged in');
     
     const question = {
-      contet: newQuestion,
+      content: newQuestion,
       author: {
         name: user.name,
         avatar: user.avatar,
@@ -114,6 +117,22 @@ export default function Room() {
             <Button type="submit" disabled={!user}>Enviar pergunta</Button>
           </div>
         </form>
+        <div>
+          {questions.map((question) => (
+            <div className="question-card" key={question.id}>
+              <p>{question.content}</p>
+              <div className="question-footer">
+                <div className="author-info">
+                  <img src={question.author.avatar} alt={question.author.name} />
+                  <span>{question.author.name}</span>
+                </div>
+                <button type="button">
+                  <img src={likeImg} alt="Dar like" />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </main>
     </div>
   );
