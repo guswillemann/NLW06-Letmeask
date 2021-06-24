@@ -3,7 +3,7 @@
   border-radius: 0.8rem;
   overflow: hidden;
 
-  background-color: var(--white-details);
+  background-color: transparent;
   border: 0.1rem solid var(--purple);
   cursor: pointer;
 
@@ -32,5 +32,7 @@
     width: 23rem;
     font-size: 1.4rem;
     font-weight: 500;
+    
+    color: var(--black);
   }
 }

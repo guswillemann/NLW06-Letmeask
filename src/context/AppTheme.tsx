@@ -1,6 +1,10 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import { createContext, ReactNode } from "react";
-import theme from '../styles/theme.colors.module.scss';
+import lampImg from '../assets/images/lamp.svg';
+import lightRaysImg from '../assets/images/light-rays.svg';
+
+// import theme from '../styles/theme.colors.module.scss';
 
 type AppThemeContextData = () => void;
 
@@ -11,22 +15,32 @@ type AppThemeProviderProps = {
 }
 
 export default function AppThemeContextProvider({ children }: AppThemeProviderProps) {
-  const [themeMode, setThemeMode] = useState('lightMode');
+  const [themeMode, setThemeMode] = useState(() => {
+    const storedTheme = localStorage.getItem('theme');
+    return storedTheme ?? 'lightMode';
+  });
 
+  useEffect(() => {
+    document.body.classList.add(themeMode);
+    localStorage.setItem('theme', themeMode)
+  }, [themeMode])
+  
   function changeTheme() {
     const newThemeMode = themeMode === 'lightMode'
-      ? 'darkMode'
-      : 'lightMode'
-  
+    ? 'darkMode'
+    : 'lightMode'
+    
+    document.body.classList.remove(themeMode);
     setThemeMode(newThemeMode)
   }
 
   return (
     <AppThemeContext.Provider value={changeTheme}>
-      <div className={`app_container ${theme[themeMode]}`}>
-        <button className={theme.themeButton} type="button" onClick={changeTheme}>Theme</button>
-        {children}
-      </div>
+      <button className="themeButton" type="button" onClick={changeTheme}>
+        <img className="themeLamp" src={lampImg} alt="Abajur" />
+        <img className="themeRays" src={lightRaysImg} alt="Raios de luz" />
+      </button>
+      {children}
     </AppThemeContext.Provider>
   );
 }

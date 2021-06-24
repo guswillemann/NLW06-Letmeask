@@ -50,8 +50,10 @@
     align-items: stretch;
     text-align: center;
   
-    > img {
+    > svg {
       align-self: center;
+      width: 100%;
+      height: auto;
     }
 
     h2 {
@@ -67,6 +69,7 @@
         padding: 0 1.6rem;
         background-color: var(--white-details);
         border: 1px solid var(--gray-medium);
+        color: var(--black);
       }
 
       button {
