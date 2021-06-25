@@ -63,11 +63,11 @@
     form {
       input {
         height: 5rem;
-        border-radius: 0.8rem;
         padding: 0 1.6rem;
-        background-color: var(--white-details);
-        border: 1px solid var(--gray-medium);
-        color: var(--black);
+        
+        &:not(:focus) {
+          border-color: var(--gray-medium);
+        }
       }
 
       button {

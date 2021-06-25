@@ -6,6 +6,8 @@ import Logo from '../components/Logo';
 import Button from '../components/Button';
 import useAuth from '../hooks/useAuth';
 import { database } from '../services/firebase';
+import LogInIcon from '../components/icons/LogInIcon';
+import TextBox from '../components/TextBox';
 
 import '../styles/auth.scss';
 
@@ -47,13 +49,15 @@ export default function Home() {
           </button>
           <div className="separator">ou entre em um sala</div>
           <form onSubmit={handleJoinRoom}>
-            <input
+            <TextBox
+              variant="input"
               type="text"
               placeholder="Digite o código da sala"
               onChange={(event) => setRoomCode(event.target.value)}
               value={roomCode}
             />
             <Button type="submit">
+              <LogInIcon />
               Entrar na sala
             </Button>
           </form>

@@ -9,6 +9,8 @@ import useAuth from '../../hooks/useAuth';
 import useRoom from '../../hooks/useRoom';
 import { database } from '../../services/firebase';
 import LikeIcon from '../../components/icons/LikeIcon';
+import EmptyQuestionsImg from '../../assets/images/empty-questions.svg';
+import TextBox from '../../components/TextBox';
 
 import '../../styles/room.scss';
 
@@ -24,6 +26,7 @@ export default function Room() {
   const roomId = params.id;
 
   const { title, questions } = useRoom(roomId);
+  const hasQuestions = questions.length > 0;
 
   async function handleSendQuestion(event: FormEvent) {
     event.preventDefault();
@@ -63,10 +66,11 @@ export default function Room() {
       <main>
         <div className="room-title">
           <h1>Sala {title}</h1>
-          {questions.length > 0 && <span>{questions.length} Pergunta(s)</span>}
+          {hasQuestions && <span>{questions.length} Pergunta(s)</span>}
         </div>
         <form onSubmit={handleSendQuestion}>
-          <textarea
+          <TextBox
+            variant="textarea"
             placeholder="O que você quer perguntar?"
             onChange={(event) => setNewQuestion(event.target.value)}
             value={newQuestion}
@@ -86,6 +90,12 @@ export default function Room() {
           </div>
         </form>
         <section className="question-list">
+          {!hasQuestions && (
+            <div className="empty-questions">
+              <img src={EmptyQuestionsImg} alt="Bolhas de chat" />
+              <p>Nenhuma pergunta por aqui...</p>
+            </div>
+          )}
           {questions.map((question) => (
             <Question
               key={question.id}

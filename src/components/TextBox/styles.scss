@@ -1,0 +1,13 @@
+.text-box {
+  border: 0.2rem solid transparent;
+  outline: 0;
+
+  padding: 1.6rem;
+  border-radius: 0.8rem;
+  background-color: var(--white-details);
+  color: var(--black);
+
+  &:focus {
+    border-color: var(--purple);
+  }
+}

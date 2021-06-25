@@ -10,6 +10,7 @@ import DeleteIcon from '../../components/icons/DeleteIcon';
 import AnswerIcon from '../../components/icons/AnswerIcon';
 import CheckIcon from '../../components/icons/CheckIcon';
 import { database, firebase } from '../../services/firebase';
+import EmptyQuestionsImg from '../../assets/images/empty-questions.svg';
 
 import '../../styles/room.scss';
 import './styles.scss';
@@ -24,6 +25,7 @@ export default function Room() {
   const roomId = params.id;
 
   const { title, questions } = useRoom(roomId);
+  const hasQuestions = questions.length > 0;
   
   async function handleCloseRoom() {
     await database.ref(`rooms/${roomId}`).update({
@@ -67,9 +69,17 @@ export default function Room() {
       <main>
         <div className="room-title">
           <h1>Sala {title}</h1>
-          {questions.length > 0 && <span>{questions.length} Pergunta(s)</span>}
+          {hasQuestions && <span>{questions.length} Pergunta(s)</span>}
         </div>
         <section className="question-list">
+          {!hasQuestions && (
+            <div className="empty-questions">
+              <img src={EmptyQuestionsImg} alt="Bolhas de chat" />
+              <p>Nenhuma pergunta por aqui...</p>
+              <span>Envie o código desta sala para seus amigos e</span>
+              <span>comece a responder perguntas</span>
+            </div>
+          )}
           {questions.map((question) => (
             <Question
               key={question.id}

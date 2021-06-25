@@ -5,6 +5,7 @@ import Logo from '../components/Logo';
 import Button from '../components/Button';
 import useAuth from '../hooks/useAuth';
 import { database } from '../services/firebase';
+import TextBox from '../components/TextBox';
 
 import '../styles/auth.scss';
 
@@ -37,7 +38,8 @@ export default function NewRoom() {
           <Logo />
           <h2>Crie uma nova sala</h2>
           <form onSubmit={handleCreateRoom}>
-            <input
+            <TextBox
+              variant="input"
               type="text"
               placeholder="Nome da sala"
               onChange={(event) => setRoomName(event.target.value)}
