@@ -3,8 +3,11 @@
   color: var(--black);
 
   padding: 1.6rem;
-  margin-bottom: 1rem;
   border-radius: 0.8rem;
+
+  & + .question-card {
+    margin-top: 1rem;
+  }
 
   p {
    font-size: 1.6rem;
@@ -17,12 +20,6 @@
     align-items: center;
 
     margin-top: 1.6rem;
-
-    button {
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-    }
   }
 
   .author-info {
@@ -40,6 +37,33 @@
       color: var(--gray-dark);
       font-weight: 500;
       font-size: 1.4rem;
+    }
+  }
+
+  .question-panel {
+    display: flex;
+    align-items: center;
+
+    gap: 0.8rem;
+
+    button {
+      display: flex;
+      gap: 0.8rem;
+
+      transition: color 200ms;
+      color: var(--black);
+
+      P {
+        transform: translateY(0.2rem);
+      }
+
+      &.liked {
+        color: var(--purple);
+        
+        path {
+          stroke: var(--purple);
+        }
+      }
     }
   }
 }

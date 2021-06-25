@@ -61,18 +61,24 @@
   width: 4rem;
   height: 4rem;
 
-  img {
+  
+  svg, img {
     position: absolute;
     inset: 0;
     width: 100%;
     height: auto;
-
+    
     padding: 0.5rem;
   }
-
+  
+  svg path {
+    transition: stroke 200ms;
+    stroke: var(--gray-dark);
+  }
+  
   body:not(.darkMode)  &:hover {
-    .themeLamp {
-      filter: hue-rotate(15deg) saturate(19.6);
+    .themeLamp path {
+      stroke: var(--purple);
     }
 
     .themeRays {
@@ -87,8 +93,8 @@
   }
   
   &:hover {
-    .themeLamp {
-      filter: hue-rotate(15deg) saturate(19.6);
+    .themeLamp path {
+      stroke: var(--purple);
     }
 
     .themeRays {

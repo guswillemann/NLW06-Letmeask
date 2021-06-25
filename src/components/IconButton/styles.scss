@@ -1,0 +1,15 @@
+.icon-button {
+  cursor: pointer;
+  font-size: 0;
+  background-color: transparent;
+  border: none;
+  
+  .icon-path {
+    transition: stroke 200ms;
+    stroke: var(--gray-dark);
+  }
+ 
+  &:hover .icon-path {
+    stroke: var(--purple);
+  }
+}
