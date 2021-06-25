@@ -1,12 +1,22 @@
 .question-card {
   background-color: var(--white-details);
   color: var(--black);
+  border: 0.1rem solid transparent;
 
   padding: 1.6rem;
   border-radius: 0.8rem;
 
   & + .question-card {
     margin-top: 1rem;
+  }
+
+  &.answered {
+    background-color: var(--gray-light);
+  }
+
+  &.highlighted {
+    border-color: var(--purple);
+    background-color: var(--pink-light);
   }
 
   p {

@@ -8,7 +8,7 @@ import RoomCode from '../../components/RoomCode';
 import useAuth from '../../hooks/useAuth';
 import useRoom from '../../hooks/useRoom';
 import { database } from '../../services/firebase';
-import LikeIcon from './LikeIcon';
+import LikeIcon from '../../components/icons/LikeIcon';
 
 import '../../styles/room.scss';
 
@@ -37,7 +37,7 @@ export default function Room() {
         avatar: user.avatar,
       },
       isHighlighted: false,
-      isAnsweared: false,
+      isAnswered: false,
     };
 
     await database.ref(`rooms/${roomId}/questions`).push(question);
@@ -91,15 +91,19 @@ export default function Room() {
               key={question.id}
               content={question.content}
               author={question.author}
+              isAnswered={question.isAnswered}
+              isHighlighted={question.isHighlighted}
             >
-              <IconButton
-                className={question.likeId && 'liked'}
-                onClick={() => handleLikeQuestion(question.id, question.likeId)}
-                ariaLabel="Marcar como gostei"
-              >
-                {question.likeCount && <p>{question.likeCount}</p>}
-                <LikeIcon />
-              </IconButton>
+              {!question.isAnswered && (
+                <IconButton
+                  className={question.likeId && 'liked'}
+                  onClick={() => handleLikeQuestion(question.id, question.likeId)}
+                  ariaLabel="Marcar como gostei"
+                >
+                  {question.likeCount && <p>{question.likeCount}</p>}
+                  <LikeIcon />
+                </IconButton>
+              )}
             </Question>
           ))}
         </section>

@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import cNames from 'classnames';
 
 import './styles.scss';
 
@@ -9,14 +10,24 @@ type QuestionProps = {
     avatar: string;
   }
   children: ReactNode;
+  isAnswered: boolean;
+  isHighlighted: boolean;
 }
 
 export default function Question({
-  content, author, children,
+  content,
+  author,
+  children,
+  isAnswered = false,
+  isHighlighted = false,
 }: QuestionProps) {
   
   return (
-  <div className="question-card">
+  <div className={cNames(
+    'question-card',
+    { answered: isAnswered },
+    { highlighted: isHighlighted && !isAnswered },
+  )}>
     <p>{content}</p>
     <div className="question-footer">
       <div className="author-info">

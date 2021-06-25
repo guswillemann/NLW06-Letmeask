@@ -6,7 +6,9 @@ import IconButton from '../../components/IconButton';
 import Question from '../../components/Question';
 import RoomCode from '../../components/RoomCode';
 import useRoom from '../../hooks/useRoom';
-import DeleteIcon from './DeleteIcon';
+import DeleteIcon from '../../components/icons/DeleteIcon';
+import AnswerIcon from '../../components/icons/AnswerIcon';
+import CheckIcon from '../../components/icons/CheckIcon';
 import { database, firebase } from '../../services/firebase';
 
 import '../../styles/room.scss';
@@ -31,9 +33,24 @@ export default function Room() {
     });
   }
 
+  function handleCheckQuestionAsAnswered(questionId: string) {
+    if (window.confirm('Tem certeza que você deseja marcar como respondida?')) {
+      database.ref(`rooms/${roomId}/questions/${questionId}`).update({
+        isAnswered: true,
+      });
+    }
+  }
+
+  function handleHighlightQuestion(questionId: string, isHighlighted = false) {
+    database.ref(`rooms/${roomId}/questions/${questionId}`).update({
+      isHighlighted: isHighlighted ? false : true,
+    });
+  }
+
   function handleDeleteQuestion(questionId: string) {
-    if (window.confirm('Tem certeza que você deseja excluir esta pergunta?'))
+    if (window.confirm('Tem certeza que você deseja excluir esta pergunta?')) {
       database.ref(`rooms/${roomId}/questions/${questionId}`).remove();
+    }
   }
 
   return (
@@ -58,8 +75,28 @@ export default function Room() {
               key={question.id}
               content={question.content}
               author={question.author}
+              isAnswered={question.isAnswered}
+              isHighlighted={question.isHighlighted}
             >
               <p>Likes: {question.likeCount}</p>
+              {!question.isAnswered && (
+                <>
+                  <IconButton
+                    className="check-answered-button"
+                    onClick={() => handleCheckQuestionAsAnswered(question.id)}
+                    ariaLabel="Marcar como respondida"
+                  >
+                    <CheckIcon />
+                  </IconButton>
+                  <IconButton
+                    className="highlight-button"
+                    onClick={() => handleHighlightQuestion(question.id, question.isHighlighted)}
+                    ariaLabel="Destacar pergunta"
+                  >
+                    <AnswerIcon />
+                  </IconButton>
+                </>
+              )}
               <IconButton
                 className="delete-button"
                 onClick={() => handleDeleteQuestion(question.id)}

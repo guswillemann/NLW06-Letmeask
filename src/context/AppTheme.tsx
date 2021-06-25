@@ -3,8 +3,6 @@ import { useEffect } from "react";
 import { createContext, ReactNode } from "react";
 import lightRaysImg from '../assets/images/light-rays.svg';
 
-// import theme from '../styles/theme.colors.module.scss';
-
 type AppThemeContextData = () => void;
 
 export const AppThemeContext = createContext({} as AppThemeContextData);
