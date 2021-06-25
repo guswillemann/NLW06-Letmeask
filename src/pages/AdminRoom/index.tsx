@@ -1,10 +1,10 @@
-import { useHistory } from 'react-router';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import Logo from '../../components/Logo';
 import Button from '../../components/Button';
 import IconButton from '../../components/IconButton';
 import Question from '../../components/Question';
 import RoomCode from '../../components/RoomCode';
+import useAuth from '../../hooks/useAuth';
 import useRoom from '../../hooks/useRoom';
 import DeleteIcon from '../../components/icons/DeleteIcon';
 import AnswerIcon from '../../components/icons/AnswerIcon';
@@ -14,25 +14,41 @@ import EmptyQuestionsImg from '../../assets/images/empty-questions.svg';
 
 import '../../styles/room.scss';
 import './styles.scss';
+import { useEffect } from 'react';
 
 type RoomParams = {
   id: string;
 }
 
 export default function Room() {
+  const { user } = useAuth();
   const history = useHistory();
   const params = useParams<RoomParams>();
   const roomId = params.id;
 
-  const { title, questions } = useRoom(roomId);
+  const { title, questions, isClosed } = useRoom(roomId);
   const hasQuestions = questions.length > 0;
   
+  useEffect(() => {
+    if (!user) return;
+    (async () => {
+      const roomRef = await database.ref(`rooms/${roomId}`).get();
+      const authorId = roomRef.val()?.authorId;
+      if (user?.id !== authorId) {
+        if (user?.id !== authorId) history.push('/');
+        else history.push(`/rooms/${roomId}`);
+      }
+    })()
+  }, [user, history, roomId, isClosed])
+
   async function handleCloseRoom() {
     await database.ref(`rooms/${roomId}`).update({
       closedAt: firebase.database.ServerValue.TIMESTAMP,
-    }).then(() => {
-      history.push('/');
-    });
+    })
+  }
+
+  async function handleOpenRoom() {
+    await database.ref(`rooms/${roomId}/closedAt`).remove();
   }
 
   function handleCheckQuestionAsAnswered(questionId: string) {
@@ -62,14 +78,20 @@ export default function Room() {
           <Logo />
           <div>
             <RoomCode code={roomId} />
-            <Button onClick={handleCloseRoom} isOutlined>Encerrar sala</Button>
+            <Button
+              onClick={isClosed ? handleOpenRoom : handleCloseRoom}
+              isOutlined
+            >
+              {isClosed ? 'Reabrir sala' : 'Fechar sala'}
+            </Button>
           </div>
         </div>
       </header>
       <main>
         <div className="room-title">
           <h1>Sala {title}</h1>
-          {hasQuestions && <span>{questions.length} Pergunta(s)</span>}
+          {hasQuestions && <span className="questions-counter">{questions.length} Pergunta(s)</span>}
+          {isClosed && <span className="room-status">Sala fechada</span>}
         </div>
         <section className="question-list">
           {!hasQuestions && (

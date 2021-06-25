@@ -20,6 +20,10 @@
 
         button {
           height: 4rem;
+          
+          &:last-child {
+            width: 19.2rem;
+          }
         }
       }
     }
@@ -33,21 +37,31 @@
       margin: 3.2rem 0 2.4rem;
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
 
       h1 {
         font-family: 'Poppins', sans-serif;
         font-size: 2.4rem;
         color: var(--black);
+        word-break: break-all;
       }
 
       span {
         margin-left: 1.6rem;
-        background-color: var(--pink-dark);
         border-radius: 9999px;
         padding: 0.8rem 1.6rem;
-        color: var(--white-details);
         font-weight: 500;
         font-size: 1.4rem;
+      }
+
+      .questions-counter {
+        background-color: var(--pink-dark);
+        color: var(--white-details);
+      }
+      
+      .room-status {
+        background-color: var(--danger);
+        color: var(--white-details);
       }
     }
 

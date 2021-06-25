@@ -28,9 +28,12 @@ export default function Home() {
 
     const roomRef = await database.ref(`rooms/${roomCode}`).get();
     if (!roomRef.exists()) return alert('Sala não existe.');
-    if (roomRef.val().closedAt) return alert('Sala foi encerrada.');
+    
+    const { authorId, closedAt } = roomRef.val();
+    if (closedAt && authorId !== user?.id) return alert('Sala foi encerrada.');
 
-    history.push(`rooms/${roomCode}`);
+    if (authorId === user?.id) history.push(`rooms/admin/${roomCode}`)
+    else history.push(`rooms/${roomCode}`);
   }
 
   return (

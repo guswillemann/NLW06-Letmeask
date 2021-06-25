@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import Button from '../../components/Button';
 import IconButton from '../../components/IconButton';
 import Logo from '../../components/Logo';
@@ -13,6 +13,7 @@ import EmptyQuestionsImg from '../../assets/images/empty-questions.svg';
 import TextBox from '../../components/TextBox';
 
 import '../../styles/room.scss';
+import { useEffect } from 'react';
 
 type RoomParams = {
   id: string;
@@ -20,13 +21,19 @@ type RoomParams = {
 
 export default function Room() {
   const { user } = useAuth();
-  
+  const history = useHistory();
   const [newQuestion, setNewQuestion] = useState('');
   const params = useParams<RoomParams>();
   const roomId = params.id;
 
-  const { title, questions } = useRoom(roomId);
+  const { title, questions, isClosed } = useRoom(roomId);
   const hasQuestions = questions.length > 0;
+
+  console.log(isClosed);
+
+  useEffect(() => {
+    if (isClosed) history.push('/');
+  }, [isClosed, history])
 
   async function handleSendQuestion(event: FormEvent) {
     event.preventDefault();
@@ -66,7 +73,7 @@ export default function Room() {
       <main>
         <div className="room-title">
           <h1>Sala {title}</h1>
-          {hasQuestions && <span>{questions.length} Pergunta(s)</span>}
+          {hasQuestions && <span className="questions-counter">{questions.length} Pergunta(s)</span>}
         </div>
         <form onSubmit={handleSendQuestion}>
           <TextBox

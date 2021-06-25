@@ -32,6 +32,7 @@ export default function useRoom(roomId: string) {
   const { user } = useAuth();
   const [title, setTitle] = useState('');
   const [questions, setQuestions] = useState([] as Array<QuestionType>);
+  const [isClosed, setIsClosed] = useState(false);
 
   useEffect(() => {
     const roomRef = database.ref(`/rooms/${roomId}`);
@@ -50,6 +51,7 @@ export default function useRoom(roomId: string) {
       }))
       setTitle(databaseRoom.title);
       setQuestions(parsedQuestions);
+      setIsClosed(Boolean(room.val().closedAt));
     })
     return () => roomRef.off('value');
   }, [roomId, user?.id])
@@ -58,5 +60,6 @@ export default function useRoom(roomId: string) {
   return {
     title,
     questions,
+    isClosed,
   }
 }
