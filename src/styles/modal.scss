@@ -1,0 +1,10 @@
+#modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: fixed;
+  inset: 0;
+  
+  background-color: rgba(5, 2, 6, 0.8);
+}
