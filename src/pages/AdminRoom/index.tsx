@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import Logo from '../../components/Logo';
 import Button from '../../components/Button';
@@ -14,13 +15,12 @@ import EmptyQuestionsImg from '../../assets/images/empty-questions.svg';
 
 import '../../styles/room.scss';
 import './styles.scss';
-import { useEffect } from 'react';
 
 type RoomParams = {
   id: string;
 }
 
-export default function Room() {
+export default function AdminRoom() {
   const { user } = useAuth();
   const history = useHistory();
   const params = useParams<RoomParams>();
@@ -35,7 +35,7 @@ export default function Room() {
       const roomRef = await database.ref(`rooms/${roomId}`).get();
       const authorId = roomRef.val()?.authorId;
       if (user?.id !== authorId) {
-        if (user?.id !== authorId) history.push('/');
+        if (isClosed) history.push('/');
         else history.push(`/rooms/${roomId}`);
       }
     })()
