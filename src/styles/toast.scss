@@ -1,0 +1,46 @@
+@keyframes slideDown {
+  0% { top: -20rem; }
+  10% { top: 2rem; }
+  90% { top: 2rem; }
+  100% { top: -20rem; }
+}
+
+#toast-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+  
+  animation: slideDown 3000ms;
+  background-color: var(--white-bg);
+  
+  width: 35rem;
+  height: 5rem;
+  border-radius: 0.8rem;
+  
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  
+  span {
+    color: var(--black);
+  }
+
+  img {
+    height: 80%;
+    margin-left: 1rem;
+    align-self: flex-start;
+  }
+  
+  &.error-toast {
+    border: 0.2rem solid var(--danger);
+  }
+  
+  &.success-toast {
+    border: 0.2rem solid var(--purple);
+  }
+
+  &.alert-toast {
+    border: 0.2rem solid var(--alert);
+  }
+}
