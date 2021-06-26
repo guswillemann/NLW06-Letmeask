@@ -23,7 +23,7 @@ export default function NewRoom() {
       title: roomName,
       authorId: user?.id,
     });
-    history.push(`/rooms/${firebaseRoom.key}`)
+    history.push(`/rooms/admin/${firebaseRoom.key}`)
   }
 
   return (
