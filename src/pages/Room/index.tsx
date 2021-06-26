@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import Button from '../../components/Button';
 import IconButton from '../../components/IconButton';
@@ -7,13 +7,13 @@ import Question from '../../components/Question';
 import RoomCode from '../../components/RoomCode';
 import useAuth from '../../hooks/useAuth';
 import useRoom from '../../hooks/useRoom';
+import useToast from '../../hooks/useToast';
 import { database } from '../../services/firebase';
 import LikeIcon from '../../components/icons/LikeIcon';
 import EmptyQuestionsImg from '../../assets/images/empty-questions.svg';
 import TextBox from '../../components/TextBox';
 
 import '../../styles/room.scss';
-import { useEffect } from 'react';
 
 type RoomParams = {
   id: string;
@@ -22,6 +22,8 @@ type RoomParams = {
 export default function Room() {
   const { user } = useAuth();
   const history = useHistory();
+  const { activeToast } = useToast();
+
   const [newQuestion, setNewQuestion] = useState('');
   const params = useParams<RoomParams>();
   const roomId = params.id;
@@ -29,11 +31,14 @@ export default function Room() {
   const { title, questions, isClosed } = useRoom(roomId);
   const hasQuestions = questions.length > 0;
 
-  console.log(isClosed);
-
   useEffect(() => {
-    if (isClosed) history.push('/');
-  }, [isClosed, history])
+    if (!isClosed) return;
+    history.push('/');
+    activeToast({
+      type: 'alert',
+      message: 'A sala foi fechada',
+    })
+  }, [isClosed, history, activeToast])
 
   async function handleSendQuestion(event: FormEvent) {
     event.preventDefault();

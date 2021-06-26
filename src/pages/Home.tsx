@@ -10,10 +10,12 @@ import LogInIcon from '../components/icons/LogInIcon';
 import TextBox from '../components/TextBox';
 
 import '../styles/auth.scss';
+import useToast from '../hooks/useToast';
 
 export default function Home() {
   const { user, signInWithGoogle } = useAuth();
   const history = useHistory();
+  const { activeToast } = useToast();
 
   const [roomCode, setRoomCode] = useState('');
 
@@ -27,10 +29,16 @@ export default function Home() {
     if (roomCode.trim() === '') return;
 
     const roomRef = await database.ref(`rooms/${roomCode}`).get();
-    if (!roomRef.exists()) return alert('Sala não existe.');
-    
+    if (!roomRef.exists()) return activeToast({
+      type: 'error',
+      message: 'A sala não existe.'
+    });
+
     const { authorId, closedAt } = roomRef.val();
-    if (closedAt && authorId !== user?.id) return alert('Sala foi encerrada.');
+    if (closedAt && authorId !== user?.id) return activeToast({
+      type: 'error',
+      message: 'A sala foi encerrada.'
+    });
 
     if (authorId === user?.id) history.push(`rooms/admin/${roomCode}`)
     else history.push(`rooms/${roomCode}`);
