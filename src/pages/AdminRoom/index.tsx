@@ -7,14 +7,18 @@ import Question from '../../components/Question';
 import RoomCode from '../../components/RoomCode';
 import useAuth from '../../hooks/useAuth';
 import useRoom from '../../hooks/useRoom';
+import useModal from '../../hooks/useModal';
 import DeleteIcon from '../../components/icons/DeleteIcon';
 import AnswerIcon from '../../components/icons/AnswerIcon';
 import CheckIcon from '../../components/icons/CheckIcon';
-import { database, firebase } from '../../services/firebase';
+import { database } from '../../services/firebase';
 import EmptyQuestionsImg from '../../assets/images/empty-questions.svg';
+import DeleteQuestionModal from './DeleteQuestionModal';
+import CloseRoomModal from './CloseRoomModal';
 
 import '../../styles/room.scss';
 import './styles.scss';
+import useToast from '../../hooks/useToast';
 
 type RoomParams = {
   id: string;
@@ -23,6 +27,8 @@ type RoomParams = {
 export default function AdminRoom() {
   const { user } = useAuth();
   const history = useHistory();
+  const { activeModal } = useModal();
+  const { activeToast } = useToast();
   const params = useParams<RoomParams>();
   const roomId = params.id;
 
@@ -42,21 +48,21 @@ export default function AdminRoom() {
   }, [user, history, roomId, isClosed])
 
   async function handleCloseRoom() {
-    await database.ref(`rooms/${roomId}`).update({
-      closedAt: firebase.database.ServerValue.TIMESTAMP,
-    })
+    activeModal(<CloseRoomModal roomId={roomId} />)
   }
 
   async function handleOpenRoom() {
-    await database.ref(`rooms/${roomId}/closedAt`).remove();
+    await database.ref(`rooms/${roomId}/closedAt`).remove()
+      .then(() => activeToast({
+        type: 'success',
+        message: 'A sala foi reaberta',
+      }));
   }
 
-  function handleCheckQuestionAsAnswered(questionId: string) {
-    if (window.confirm('Tem certeza que você deseja marcar como respondida?')) {
-      database.ref(`rooms/${roomId}/questions/${questionId}`).update({
-        isAnswered: true,
-      });
-    }
+  function handleCheckQuestionAsAnswered(questionId: string, isAnswered: boolean) {
+    database.ref(`rooms/${roomId}/questions/${questionId}`).update({
+      isAnswered: isAnswered ? false : true,
+    });
   }
 
   function handleHighlightQuestion(questionId: string, isHighlighted = false) {
@@ -66,9 +72,7 @@ export default function AdminRoom() {
   }
 
   function handleDeleteQuestion(questionId: string) {
-    if (window.confirm('Tem certeza que você deseja excluir esta pergunta?')) {
-      database.ref(`rooms/${roomId}/questions/${questionId}`).remove();
-    }
+    activeModal(<DeleteQuestionModal roomId={roomId} questionId={questionId} />);
   }
 
   return (
@@ -111,23 +115,21 @@ export default function AdminRoom() {
               isHighlighted={question.isHighlighted}
             >
               <p>Likes: {question.likeCount}</p>
+              <IconButton
+                className="check-answered-button"
+                onClick={() => handleCheckQuestionAsAnswered(question.id, question.isAnswered)}
+                ariaLabel="Marcar como respondida"
+              >
+                <CheckIcon />
+              </IconButton>
               {!question.isAnswered && (
-                <>
-                  <IconButton
-                    className="check-answered-button"
-                    onClick={() => handleCheckQuestionAsAnswered(question.id)}
-                    ariaLabel="Marcar como respondida"
-                  >
-                    <CheckIcon />
-                  </IconButton>
-                  <IconButton
-                    className="highlight-button"
-                    onClick={() => handleHighlightQuestion(question.id, question.isHighlighted)}
-                    ariaLabel="Destacar pergunta"
-                  >
-                    <AnswerIcon />
-                  </IconButton>
-                </>
+                <IconButton
+                  className="highlight-button"
+                  onClick={() => handleHighlightQuestion(question.id, question.isHighlighted)}
+                  ariaLabel="Destacar pergunta"
+                >
+                  <AnswerIcon />
+                </IconButton>
               )}
               <IconButton
                 className="delete-button"

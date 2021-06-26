@@ -12,6 +12,10 @@
 
   &.answered {
     background-color: var(--gray-light);
+
+    .check-answered-button .icon-path {
+      stroke: var(--purple);
+    }
   }
 
   &.highlighted {

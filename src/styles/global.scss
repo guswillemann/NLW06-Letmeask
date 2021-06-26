@@ -21,3 +21,12 @@ body {
 body, input, button, textarea {
   font: 400 1.6rem 'Roboto', sans-serif;
 }
+
+@keyframes modalAnimation {
+  from {
+    transform: scale(0.60);
+  }
+  to {
+    transform: scale(1);
+  }
+}
