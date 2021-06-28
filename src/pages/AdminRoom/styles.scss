@@ -14,7 +14,7 @@
   width: 60rem;
   height: 36rem;
 
-  background-color: var(--white-bg);
+  background-color: var(--secondary);
   border-radius: 0.8rem;
   
   .icon-path {
@@ -43,18 +43,18 @@
 
     button:first-child {
       width: 18rem;
-      background-color: var(--gray-light);
-      color: var(--gray-dark);
+      background-color: var(--gray-1);
+      color: var(--gray-3);
       
       &:hover {
-        background-color: var(--hover-gray-light);
+        background-color: var(--hover-gray-1);
       }
     }
     
     button:last-child {
       width: 18rem;
       background-color: var(--danger);
-      color: var(--white-details);
+      color: var(--secondary-details);
       
       &:hover {
         background-color: var(--hover-danger);

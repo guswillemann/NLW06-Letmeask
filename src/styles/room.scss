@@ -1,7 +1,7 @@
 #page-room {
   header {
     padding: 2.4rem;
-    border-bottom: 1px solid var(--gray-light);
+    border-bottom: 1px solid var(--gray-1);
 
     .content {
       max-width: 112rem;
@@ -42,7 +42,7 @@
       h1 {
         font-family: 'Poppins', sans-serif;
         font-size: 2.4rem;
-        color: var(--black);
+        color: var(--primary);
         word-break: break-all;
       }
 
@@ -55,13 +55,13 @@
       }
 
       .questions-counter {
-        background-color: var(--pink-dark);
-        color: var(--white-details);
+        background-color: var(--pink-3);
+        color: var(--secondary-details);
       }
       
       .room-status {
         background-color: var(--danger);
-        color: var(--white-details);
+        color: var(--secondary-details);
       }
     }
 
@@ -91,7 +91,7 @@
 
           span {
             margin-left: 0.8rem;
-            color: var(--black);
+            color: var(--primary);
             font-weight: 500;
             font-size: 1.4rem;
           }
@@ -99,7 +99,7 @@
 
         > span {
           font-size: 1.4rem;
-          color: var(--gray-dark);
+          color: var(--gray-3);
           font-weight: 500;
 
           button {
@@ -134,12 +134,12 @@
 
       p {
         font: 600 1.8rem "Poppins", sans-serif;
-        color: var(--black);
+        color: var(--primary);
       }
 
       span {
         font: 400 1.4rem "Robot", sans-serif;
-        color: var(--gray-dark);
+        color: var(--gray-3);
       }
     }
   }

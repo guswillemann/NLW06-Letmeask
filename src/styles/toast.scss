@@ -12,7 +12,7 @@
   flex-wrap: wrap;
   
   animation: slideDown 3000ms;
-  background-color: var(--white-bg);
+  background-color: var(--secondary);
   
   width: 35rem;
   height: 5rem;
@@ -23,7 +23,7 @@
   transform: translateX(-50%);
   
   span {
-    color: var(--black);
+    color: var(--primary);
   }
 
   img {

@@ -3,7 +3,7 @@
   border-radius: 0.8rem;
   font-weight: 500;
   background-color: var(--purple);
-  color: var(--white-details);
+  color: var(--secondary-details);
   padding: 0 3.2rem;
 
   display: flex;
@@ -23,7 +23,7 @@
   }
 
   .icon-path {
-    stroke: var(--white-details);
+    stroke: var(--secondary-details);
   }
 
   &:not(:disabled):hover {
