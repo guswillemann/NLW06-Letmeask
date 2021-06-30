@@ -19,6 +19,7 @@
   border-radius: 0.8rem;
   
   position: fixed;
+  top: -200%;
   left: 50%;
   transform: translateX(-50%);
   
@@ -26,8 +27,9 @@
     color: var(--primary);
   }
 
-  img {
-    height: 80%;
+  > svg {
+    width: 4rem;
+    height: 4rem;
     margin-left: 1rem;
     align-self: flex-start;
   }

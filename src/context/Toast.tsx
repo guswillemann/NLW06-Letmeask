@@ -1,12 +1,13 @@
 import cName from "classnames";
 import { useState } from "react";
 import { createContext, ReactNode } from "react";
-import successImg from '../assets/images/success.svg';
-import alertImg from '../assets/images/alert.svg';
-import errorImg from '../assets/images/error.svg';
+import AlertIcon from "../components/icons/AlertIcon";
+import ErrorIcon from "../components/icons/ErrorIcon";
+import SuccessIcon from "../components/icons/SuccessIcon";
 
 import '../styles/toast.scss';
 import { useCallback } from "react";
+import { useEffect } from "react";
 
 type ToastContextData = {
   activeToast: (toast: ToastObject) => void,
@@ -24,30 +25,33 @@ type ToastObject = {
 }
 
 const toastImgMap = {
-  success: successImg,
-  alert: alertImg,
-  error: errorImg,
+  success: <SuccessIcon />,
+  alert: <AlertIcon />,
+  error: <ErrorIcon />,
 }
 
 export default function ToastContextProvider({ children }: ToastContextProviderProps) {
   const [toastObject, setToastObject] = useState<ToastObject | null>();
-  const activeToast = useCallback((toast: ToastObject) => {
-    setToastObject(toast)
-    setTimeout(() => setToastObject(null), 3000);
-  }, [])
+  const activeToast = useCallback((toast: ToastObject) => setToastObject(toast), [])
+  
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {setToastObject(null)}, 3000);
+    return () => clearTimeout(timeoutId);
+  }, [toastObject])
 
   return (
     <ToastContext.Provider value={{
       activeToast,
     }}>
       {toastObject && <div
+        key={Date.now()}
         id="toast-container"
         className={cName(
           { 'success-toast': toastObject?.type === 'success'},
           { 'alert-toast': toastObject?.type === 'alert'},
           { 'error-toast': toastObject?.type === 'error' },
         )}>
-          <img src={toastImgMap[toastObject?.type]} alt="sucesso" />
+          {toastImgMap[toastObject?.type]}
           <span>{toastObject?.message}</span>
       </div>}
       {children}
