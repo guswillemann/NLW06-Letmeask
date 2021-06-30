@@ -12,6 +12,7 @@ type QuestionProps = {
   children: ReactNode;
   isAnswered: boolean;
   isHighlighted: boolean;
+  className?: string;
 }
 
 export default function Question({
@@ -20,11 +21,13 @@ export default function Question({
   children,
   isAnswered = false,
   isHighlighted = false,
+  className,
 }: QuestionProps) {
   
   return (
   <div className={cNames(
     'question-card',
+    className,
     { answered: isAnswered },
     { highlighted: isHighlighted && !isAnswered },
   )}>

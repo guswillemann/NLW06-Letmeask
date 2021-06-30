@@ -1,5 +1,5 @@
-import { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
-import cNames from 'classnames';
+import { ChangeEvent, InputHTMLAttributes, TextareaHTMLAttributes } from "react";
+import cName from 'classnames';
 
 import './styles.scss';
 
@@ -7,13 +7,15 @@ type TextBoxProps = InputHTMLAttributes<HTMLInputElement> & TextareaHTMLAttribut
   variant: 'input' | 'textarea';
 }
 
+export type TextBoxEvent = ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>;
+
 const TextBoxVariants = {
-  input: (props: InputHTMLAttributes<HTMLInputElement>) => (
-    <input className={cNames('text-box', props.className)} {...props} />
+  input: ({ className, ...props }: InputHTMLAttributes<HTMLInputElement>) => (
+    <input className={cName('text-box', className)} {...props} />
   ),
   
-  textarea: (props: TextareaHTMLAttributes<HTMLTextAreaElement>) => (
-    <textarea className={cNames('text-box', props.className)} {...props} />
+  textarea: ({ className, ...props }: TextareaHTMLAttributes<HTMLTextAreaElement>) => (
+    <textarea className={cName('text-box', className)} {...props} />
   ),
 }
 

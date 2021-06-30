@@ -1,0 +1,52 @@
+#filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.6rem;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  
+  .filter-operator-select {
+    margin-right: -1.6rem;
+    
+    & > button {
+      border-radius: 8px 0 0 8px;
+    }
+  }
+
+  .text-box {
+    height: 4rem;
+    padding: 0 1rem;
+    width: 20rem;
+  }
+
+  .text-box.like-input {
+    border-radius: 0 8px 8px 0;
+    width: 16rem;
+  }
+
+  .filter-type-select {
+    margin-left: -1rem;
+    width: 10rem;
+    height: 4rem;
+  }
+     
+  .icon-button {
+    svg {
+      width: 3rem;
+      height: 3rem;
+    }
+    
+    &.active {
+      .icon-path {
+        stroke: var(--purple);
+      }
+      
+      &:hover {
+        .icon-path {
+          stroke: var(--gray-3);
+        }
+      }
+    }
+  }
+}

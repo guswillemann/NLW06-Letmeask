@@ -12,6 +12,7 @@ import { database } from '../../services/firebase';
 import LikeIcon from '../../components/icons/LikeIcon';
 import EmptyQuestionsImg from '../../assets/images/empty-questions.svg';
 import TextBox from '../../components/TextBox';
+import FilterBar from '../../components/FilterBar';
 
 import '../../styles/room.scss';
 
@@ -28,7 +29,14 @@ export default function Room() {
   const params = useParams<RoomParams>();
   const roomId = params.id;
 
-  const { title, questions, isClosed } = useRoom(roomId);
+  const {
+    title,
+    questions,
+    isClosed,
+    filters,
+    updateFilters,
+    checkFilterStatus,
+  } = useRoom(roomId);
   const hasQuestions = questions.length > 0;
 
   useEffect(() => {
@@ -101,6 +109,7 @@ export default function Room() {
             <Button type="submit" disabled={!user}>Enviar pergunta</Button>
           </div>
         </form>
+        <FilterBar filters={filters} updateFilters={updateFilters} />
         <section className="question-list">
           {!hasQuestions && (
             <div className="empty-questions">
@@ -115,6 +124,7 @@ export default function Room() {
               author={question.author}
               isAnswered={question.isAnswered}
               isHighlighted={question.isHighlighted}
+              className={checkFilterStatus(question)}
             >
               {!question.isAnswered && (
                 <IconButton

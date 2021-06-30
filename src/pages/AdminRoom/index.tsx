@@ -5,8 +5,10 @@ import Button from '../../components/Button';
 import IconButton from '../../components/IconButton';
 import Question from '../../components/Question';
 import RoomCode from '../../components/RoomCode';
+import FilterBar from '../../components/FilterBar';
 import useAuth from '../../hooks/useAuth';
 import useRoom from '../../hooks/useRoom';
+import useToast from '../../hooks/useToast';
 import useModal from '../../hooks/useModal';
 import DeleteIcon from '../../components/icons/DeleteIcon';
 import AnswerIcon from '../../components/icons/AnswerIcon';
@@ -18,7 +20,6 @@ import CloseRoomModal from './CloseRoomModal';
 
 import '../../styles/room.scss';
 import './styles.scss';
-import useToast from '../../hooks/useToast';
 
 type RoomParams = {
   id: string;
@@ -32,7 +33,14 @@ export default function AdminRoom() {
   const params = useParams<RoomParams>();
   const roomId = params.id;
 
-  const { title, questions, isClosed } = useRoom(roomId);
+  const {
+    title,
+    questions,
+    isClosed,
+    filters,
+    updateFilters,
+    checkFilterStatus,
+  } = useRoom(roomId);
   const hasQuestions = questions.length > 0;
   
   useEffect(() => {
@@ -45,7 +53,7 @@ export default function AdminRoom() {
         else history.push(`/rooms/${roomId}`);
       }
     })()
-  }, [user, history, roomId, isClosed])
+  }, [user, history, roomId, isClosed]);
 
   async function handleCloseRoom() {
     activeModal(<CloseRoomModal roomId={roomId} />)
@@ -97,6 +105,7 @@ export default function AdminRoom() {
           {hasQuestions && <span className="questions-counter">{questions.length} Pergunta(s)</span>}
           {isClosed && <span className="room-status">Sala fechada</span>}
         </div>
+        <FilterBar filters={filters} updateFilters={updateFilters} />
         <section className="question-list">
           {!hasQuestions && (
             <div className="empty-questions">
@@ -107,38 +116,39 @@ export default function AdminRoom() {
             </div>
           )}
           {questions.map((question) => (
-            <Question
-              key={question.id}
-              content={question.content}
-              author={question.author}
-              isAnswered={question.isAnswered}
-              isHighlighted={question.isHighlighted}
-            >
-              <p>Likes: {question.likeCount}</p>
-              <IconButton
-                className="check-answered-button"
-                onClick={() => handleCheckQuestionAsAnswered(question.id, question.isAnswered)}
-                ariaLabel="Marcar como respondida"
+              <Question
+                key={question.id}
+                content={question.content}
+                author={question.author}
+                isAnswered={question.isAnswered}
+                isHighlighted={question.isHighlighted}
+                className={checkFilterStatus(question)}
               >
-                <CheckIcon />
-              </IconButton>
-              {!question.isAnswered && (
+                <p>Likes: {question.likeCount}</p>
                 <IconButton
-                  className="highlight-button"
-                  onClick={() => handleHighlightQuestion(question.id, question.isHighlighted)}
-                  ariaLabel="Destacar pergunta"
+                  className="check-answered-button"
+                  onClick={() => handleCheckQuestionAsAnswered(question.id, question.isAnswered)}
+                  ariaLabel="Marcar como respondida"
                 >
-                  <AnswerIcon />
+                  <CheckIcon />
                 </IconButton>
-              )}
-              <IconButton
-                className="delete-button"
-                onClick={() => handleDeleteQuestion(question.id)}
-                ariaLabel="Deletar pergunta"
-              >
-                <DeleteIcon />
-              </IconButton>
-            </Question>
+                {!question.isAnswered && (
+                  <IconButton
+                    className="highlight-button"
+                    onClick={() => handleHighlightQuestion(question.id, question.isHighlighted)}
+                    ariaLabel="Destacar pergunta"
+                  >
+                    <AnswerIcon />
+                  </IconButton>
+                )}
+                <IconButton
+                  className="delete-button"
+                  onClick={() => handleDeleteQuestion(question.id)}
+                  ariaLabel="Deletar pergunta"
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Question>
           ))}
         </section>
       </main>

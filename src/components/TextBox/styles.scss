@@ -1,9 +1,13 @@
+.lightMode .text-box {
+  border: 2px solid var(--gray-2);
+}
+
 .text-box {
-  border: 0.2rem solid transparent;
+  border: 2px solid transparent;
   outline: 0;
 
   padding: 1.6rem;
-  border-radius: 0.8rem;
+  border-radius: 8px;
   background-color: var(--secondary-details);
   color: var(--primary);
 

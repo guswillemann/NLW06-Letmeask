@@ -28,11 +28,74 @@ type QuestionType = {
   likeId: string | undefined;
 }
 
+export type Filters = {
+  input: string;
+  inputType: 'author' | 'content' | 'likes';
+  likeFilterOperator: '=' | '>' | '>=' | '<' | '<=';
+  showDefault: boolean;
+  showAnswered: boolean;
+  showHighlighted: boolean;
+}
+
+export type FiltersTypes = 'input' | 'inputType' | 'likeFilterOperator'
+  | 'showDefault' | 'showAnswered' | 'showHighlighted';
+
 export default function useRoom(roomId: string) {
   const { user } = useAuth();
   const [title, setTitle] = useState('');
   const [questions, setQuestions] = useState([] as Array<QuestionType>);
   const [isClosed, setIsClosed] = useState(false);
+  const [filters, setFilters] = useState({
+    input: '',
+    inputType: 'content',
+    likeFilterOperator: '=',
+    showDefault: true,
+    showAnswered: true,
+    showHighlighted: true,
+  } as Filters);
+
+  function updateFilters(filterType: FiltersTypes, newFilterValue: string | boolean) {
+    setFilters({
+      ...filters,
+      [filterType]: newFilterValue,
+    })
+  }
+
+  function checkFilterStatus(question: QuestionType) {
+    const likeTestOptions = {
+      '>': question.likeCount > parseInt(filters.input),
+      '>=': question.likeCount >= parseInt(filters.input),
+      '<': question.likeCount < parseInt(filters.input),
+      '<=': question.likeCount <= parseInt(filters.input),
+      '=': question.likeCount === parseInt(filters.input),
+    }
+    
+    const inputTypeTests = {
+      author: () => {
+        const authorInputRegExp = new RegExp(filters.input, 'i');
+        return authorInputRegExp.test(question.author.name);
+      },
+      content: () => {
+        const contentInputRegExp = new RegExp(filters.input, 'i');
+        return contentInputRegExp.test(question.content);
+      },
+      likes: () => likeTestOptions[filters.likeFilterOperator],
+    }
+
+    const hasInput = Boolean(filters.input);
+
+    const hideAnswered = !filters.showAnswered && question.isAnswered;
+    const hideHighlighted = !filters.showHighlighted && question.isHighlighted;
+    const hideDefault = !filters.showDefault && !question.isAnswered && !question.isHighlighted;
+    const hideFromInput = hasInput && !inputTypeTests[filters.inputType]();
+
+    const isHidden = hideFromInput
+      || hideAnswered
+      || hideHighlighted
+      || hideDefault;
+
+    if (isHidden) return 'hidden-question';
+  }
 
   useEffect(() => {
     const roomRef = database.ref(`/rooms/${roomId}`);
@@ -61,5 +124,8 @@ export default function useRoom(roomId: string) {
     title,
     questions,
     isClosed,
+    filters,
+    updateFilters,
+    checkFilterStatus,
   }
 }

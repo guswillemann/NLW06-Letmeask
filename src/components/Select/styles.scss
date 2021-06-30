@@ -1,0 +1,74 @@
+.dropdown-select {
+  position: relative;
+
+  width: 4rem;
+  height: 4rem;
+  
+  & > button {
+    width: 100%;
+    height: 100%;
+    padding: 0 1rem;
+    
+    background-color: var(--secondary-details);
+    color: var(--primary-details);
+    
+    outline: 0;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    
+    &:focus, &:hover {
+      border-color: var(--purple);
+    }
+  }
+  
+  &:not(.active) .dropdown-options-list {
+    display: none;
+  }
+
+  .dropdown-options-list {
+    position: absolute;
+    background-color: var(--secondary-details);
+    border-radius: 8px;
+    border: 2px solid var(--secondary);
+    overflow: hidden;
+    
+    top: 110%;
+    left: 0;
+    z-index: 10;
+
+    &:hover, &:focus-within {
+      border-color: var(--purple);
+    }
+  }
+  
+  .dropdown-option {    
+    background-color: var(--secondary-details);
+    padding: 1rem;
+    border: none;
+    width: 100%;
+    color: var(--primary-details);
+
+    &:hover, &:focus {
+      outline: 0;
+      background-color: var(--hover-purple);
+    }
+  }
+}
+
+.lightMode .dropdown-select > button {
+  border: 0.2rem solid var(--gray-2);
+
+  &:hover, &:focus {
+    border-color: var(--purple);
+  }
+}
+
+.lightMode .dropdown-select {
+  .dropdown-options-list {
+    border-color: var(--gray-2);
+
+    &:focus-within {
+      border-color: var(--purple);
+    }
+  }
+}
