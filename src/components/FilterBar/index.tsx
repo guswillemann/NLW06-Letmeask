@@ -72,19 +72,25 @@ export default function FilterBar({ filters, updateFilters }: FilterBarProps) {
       <IconButton
         className={cName({active: filters.showAnswered})}
         onClick={() => updateFilters('showAnswered', filters.showAnswered ? false : true)}
-        aria-label="Filtrar respondidas">
-          <CheckIcon />
+        aria-label="Filtrar respondidas"
+        title={filters.showAnswered ? 'Filtrar perguntas respondidas' : 'Mostrar perguntas respondidas'}
+      >
+        <CheckIcon />
       </IconButton>
       <IconButton
         className={cName({active: filters.showHighlighted})}
         onClick={() => updateFilters('showHighlighted', filters.showHighlighted ? false : true)}
-        aria-label="Filtrar destacadas">
+        aria-label="Filtrar destacadas"
+        title={filters.showHighlighted ? 'Filtrar perguntas destacadas' : 'Mostrar perguntas destacadas'}
+      >
           <AnswerIcon />
       </IconButton>
       <IconButton
         className={cName({active: filters.showDefault})}
         onClick={() => updateFilters('showDefault', filters.showDefault ? false : true)}
-        aria-label="Filtrar sem marcações">
+        aria-label="Filtrar sem marcações"
+        title={filters.showDefault ? 'Filtrar perguntas sem marcações' : 'Mostrar perguntas sem marcações'}
+      >
           <QuestionIcon />
       </IconButton>
     </div>

@@ -129,6 +129,7 @@ export default function AdminRoom() {
                   className="check-answered-button"
                   onClick={() => handleCheckQuestionAsAnswered(question.id, question.isAnswered)}
                   ariaLabel="Marcar como respondida"
+                  title={question.isAnswered ? 'Marcar como não respondida' : 'Marcar como respondida'}
                 >
                   <CheckIcon />
                 </IconButton>
@@ -137,6 +138,7 @@ export default function AdminRoom() {
                     className="highlight-button"
                     onClick={() => handleHighlightQuestion(question.id, question.isHighlighted)}
                     ariaLabel="Destacar pergunta"
+                    title={question.isHighlighted ? 'Remover destaque da pergunta' : 'Destacar pergunta'}
                   >
                     <AnswerIcon />
                   </IconButton>
@@ -145,6 +147,7 @@ export default function AdminRoom() {
                   className="delete-button"
                   onClick={() => handleDeleteQuestion(question.id)}
                   ariaLabel="Deletar pergunta"
+                  title="Deletar pergunta"
                 >
                   <DeleteIcon />
                 </IconButton>

@@ -131,6 +131,7 @@ export default function Room() {
                   className={question.likeId && 'liked'}
                   onClick={() => handleLikeQuestion(question.id, question.likeId)}
                   ariaLabel="Marcar como gostei"
+                  title={question.likeId ? 'Remover like' : 'Adicionar like'}
                 >
                   {question.likeCount && <p>{question.likeCount}</p>}
                   <LikeIcon />
