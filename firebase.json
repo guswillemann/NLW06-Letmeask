@@ -3,6 +3,7 @@
     "rules": "database.rules.json"
   },
   "hosting": {
+    "site": "letmeask-guswillemann",
     "public": "build",
     "ignore": [
       "firebase.json",
