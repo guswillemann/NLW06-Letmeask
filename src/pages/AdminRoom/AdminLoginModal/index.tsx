@@ -7,15 +7,26 @@ import useModal from '../../../hooks/useModal';
 import useAuth from '../../../hooks/useAuth';
 
 import './styles.scss';
+import useToast from '../../../hooks/useToast';
 
 export default function AdminLoginModal() {
   const history = useHistory();
   const { endModal } = useModal();
-  const { signInWithGoogle } = useAuth()
+  const { signInWithGoogle } = useAuth();
+  const { activeToast } = useToast();
 
   function handleBack() {
     history.push('/');
     endModal();
+  }
+
+  async function handleLogin() {
+    await signInWithGoogle()
+      .then(() => endModal())
+      .catch(() => activeToast({
+        message: 'Não foi possível realizar o login',
+        type: 'error',
+      }));
   }
 
   return (
@@ -26,7 +37,7 @@ export default function AdminLoginModal() {
       <p>Para acessar uma sala no modo admin</p>
       <div>
         <Button onClick={handleBack}>Voltar</Button>
-        <button onClick={signInWithGoogle} className="google-login">
+        <button onClick={handleLogin} className="google-login">
           <img src={googleIcon} alt="logo da Google" />
           Logar com Google
         </button>
