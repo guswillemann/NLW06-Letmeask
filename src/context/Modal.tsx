@@ -1,4 +1,5 @@
 import { MouseEvent, useState } from "react";
+import { useCallback } from "react";
 import { createContext, ReactNode } from "react";
 
 import '../styles/modal.scss';
@@ -23,11 +24,10 @@ type CloseModalEvent = MouseEvent<HTMLDivElement> & {
 export default function ModalContextProvider({ children }: ModalCOntextProviderProps) {
   const [modalContent, setModalContent] = useState<ReactNode | null>();
   const [isVisible, setIsVisible] = useState(false);
-  
-  function activeModal(content: ReactNode) {
+  const activeModal = useCallback((content: ReactNode) => {
     setModalContent(content);
     setIsVisible(true);
-  }
+  }, [])
 
   function closeModal(event: CloseModalEvent) {
     const eventTargetId = event.target.id;

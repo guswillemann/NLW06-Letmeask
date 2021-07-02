@@ -13,10 +13,12 @@ import useModal from '../../hooks/useModal';
 import DeleteIcon from '../../components/icons/DeleteIcon';
 import AnswerIcon from '../../components/icons/AnswerIcon';
 import CheckIcon from '../../components/icons/CheckIcon';
+import LoadingScreen from '../../components/LoadingScreen';
 import { database } from '../../services/firebase';
 import EmptyQuestionsImg from '../../assets/images/empty-questions.svg';
-import DeleteQuestionModal from './DeleteQuestionModal';
+import AdminLoginModal from './AdminLoginModal';
 import CloseRoomModal from './CloseRoomModal';
+import DeleteQuestionModal from './DeleteQuestionModal';
 
 import '../../styles/room.scss';
 import './styles.scss';
@@ -44,7 +46,11 @@ export default function AdminRoom() {
   const hasQuestions = questions.length > 0;
   
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      const timeout = setTimeout(() => activeModal(<AdminLoginModal />), 2000);
+      return () => clearTimeout(timeout);
+    };
+    
     (async () => {
       const roomRef = await database.ref(`rooms/${roomId}`).get();
       const authorId = roomRef.val()?.authorId;
@@ -53,7 +59,9 @@ export default function AdminRoom() {
         else history.push(`/rooms/${roomId}`);
       }
     })()
-  }, [user, history, roomId, isClosed]);
+  }, [user, history, roomId, isClosed, activeModal]);
+
+  if (!user) return <LoadingScreen />;
 
   async function handleCloseRoom() {
     activeModal(<CloseRoomModal roomId={roomId} />)

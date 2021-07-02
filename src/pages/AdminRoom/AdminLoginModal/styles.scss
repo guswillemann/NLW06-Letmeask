@@ -1,0 +1,62 @@
+#room-admin-login {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  background-color: var(--secondary);
+
+  svg:first-child {
+    margin-bottom: 10vh;
+  }
+
+  svg:nth-child(2) {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  p {
+    font: 400 1.8rem 'Robot', sans-serif;
+    margin-top: 1.8rem;
+  }
+
+  & > div {
+    display: flex;
+    gap: 1.6rem;
+    margin-top: 3rem;
+
+    button:first-child {
+      background-color: var(--gray-2);
+    }
+  }
+}
+
+.google-login {
+  height: 5rem;
+  border-radius: 0.8rem;
+  font-weight: 500;
+  background-color: #EA4335;
+  color: #FEFEFE;
+
+  padding: 0 1rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+  border: 0;
+
+  transition: filter 200ms;
+
+  img {
+    margin-right: 0.8rem;
+  }
+
+  &:hover {
+    filter: brightness(0.9);
+  }
+}
