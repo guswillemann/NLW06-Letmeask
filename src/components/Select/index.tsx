@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import cName from 'classnames';
-
 import './styles.scss';
-import { useRef } from "react";
+
 
 type Option = {
   name: string;
@@ -19,12 +18,10 @@ type SelectProps = {
 
 export default function Select({ options, selectedValue, updateValue, className, id }: SelectProps) {
   const [isActive, setIsActive] = useState(false);
-  const valuesToNameMap = useRef<{[key: string]: string}>(options.reduce((acc, cur) => {
-    return {
-      ...acc,
-      [cur.value]: cur.name,
-    }
-  }, {}))
+  const valuesToNameMap: { [key: string]: string } = useMemo(() => options.reduce((map, option) => ({
+    ...map,
+    [option.value]: option.name,
+  }), {}), [options]);
 
   function handleOptionSelection(option: Option) {
     updateValue(option.value);
@@ -51,7 +48,7 @@ export default function Select({ options, selectedValue, updateValue, className,
       )}
     >
       <button type="button" onClick={() => setIsActive(!isActive)}>
-        {valuesToNameMap.current[selectedValue]}
+        {valuesToNameMap[selectedValue]}
       </button>
       <div className="dropdown-options-list">
         {options.map((option: Option) => (
