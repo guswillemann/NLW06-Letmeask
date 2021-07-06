@@ -1,13 +1,10 @@
+import { createContext, ReactNode, useCallback, useEffect, useState } from "react";
 import cName from "classnames";
-import { useState } from "react";
-import { createContext, ReactNode } from "react";
 import AlertIcon from "../components/icons/AlertIcon";
 import ErrorIcon from "../components/icons/ErrorIcon";
 import SuccessIcon from "../components/icons/SuccessIcon";
-
 import '../styles/toast.scss';
-import { useCallback } from "react";
-import { useEffect } from "react";
+
 
 type ToastContextData = {
   activeToast: (toast: ToastObject) => void,
@@ -35,6 +32,7 @@ export default function ToastContextProvider({ children }: ToastContextProviderP
   const activeToast = useCallback((toast: ToastObject) => setToastObject(toast), [])
   
   useEffect(() => {
+    if (!toastObject) return;
     const timeoutId = setTimeout(() => {setToastObject(null)}, 3000);
     return () => clearTimeout(timeoutId);
   }, [toastObject])

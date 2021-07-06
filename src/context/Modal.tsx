@@ -1,8 +1,6 @@
-import { MouseEvent, useState } from "react";
-import { useCallback } from "react";
-import { createContext, ReactNode } from "react";
-
+import { createContext, MouseEvent, ReactNode, useCallback, useState } from "react";
 import '../styles/modal.scss';
+
 
 type ModalContextData = {
   activeModal: (modal: ReactNode) => void;
@@ -47,7 +45,7 @@ export default function ModalContextProvider({ children }: ModalCOntextProviderP
       endModal,
     }}>
       {isVisible && (
-        <div onClick={closeModal} id="modal-container" className="teste">
+        <div onClick={closeModal} id="modal-container">
           {modalContent}
         </div>
       )}
