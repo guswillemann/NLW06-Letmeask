@@ -1,6 +1,4 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import { createContext, ReactNode } from "react";
+import { createContext, ReactNode, useEffect, useState } from 'react';
 import lightRaysImg from '../assets/images/light-rays.svg';
 
 type AppThemeContextData = () => void;

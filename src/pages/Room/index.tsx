@@ -5,6 +5,7 @@ import IconButton from '../../components/IconButton';
 import Logo from '../../components/Logo';
 import Question from '../../components/Question';
 import RoomCode from '../../components/RoomCode';
+import LoadingScreen from '../../components/LoadingScreen';
 import useAuth from '../../hooks/useAuth';
 import useRoom from '../../hooks/useRoom';
 import useToast from '../../hooks/useToast';
@@ -47,6 +48,8 @@ export default function Room() {
       message: 'A sala foi fechada',
     })
   }, [isClosed, history, activeToast])
+
+  if (!title) return <LoadingScreen />;
 
   async function handleSendQuestion(event: FormEvent) {
     event.preventDefault();

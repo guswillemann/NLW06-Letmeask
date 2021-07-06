@@ -61,7 +61,7 @@ export default function AdminRoom() {
     })()
   }, [user, history, roomId, isClosed, activeModal]);
 
-  if (!user) return <LoadingScreen />;
+  if (!user || !title) return <LoadingScreen />;
 
   async function handleCloseRoom() {
     activeModal(<CloseRoomModal roomId={roomId} />)
