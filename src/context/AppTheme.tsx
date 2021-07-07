@@ -17,15 +17,15 @@ export default function AppThemeContextProvider({ children }: AppThemeProviderPr
 
   useEffect(() => {
     document.body.classList.add(themeMode);
-    localStorage.setItem('theme', themeMode)
   }, [themeMode])
   
   function changeTheme() {
     const newThemeMode = themeMode === 'lightMode'
-    ? 'darkMode'
-    : 'lightMode'
+      ? 'darkMode'
+      : 'lightMode';
     
     document.body.classList.remove(themeMode);
+    localStorage.setItem('theme', newThemeMode)
     setThemeMode(newThemeMode)
   }
 
