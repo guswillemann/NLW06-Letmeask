@@ -1,3 +1,12 @@
+@keyframes modalAnimation {
+  from {
+    transform: scale(0.60);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
 #modal-container {
   display: flex;
   justify-content: center;
