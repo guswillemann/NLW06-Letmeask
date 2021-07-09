@@ -5,6 +5,7 @@ import '../styles/modal.scss';
 type ModalContextData = {
   activeModal: (modal: ReactNode) => void;
   endModal: () => void;
+  closeModal: () => void;
 }
 
 export const ModalContext = createContext({} as ModalContextData);
@@ -13,7 +14,7 @@ type ModalCOntextProviderProps = {
   children: ReactNode;
 }
 
-type CloseModalEvent = MouseEvent<HTMLDivElement> & {
+type ModalClickEvent = MouseEvent<HTMLDivElement> & {
   target: {
     id: string,
   }
@@ -27,10 +28,7 @@ export default function ModalContextProvider({ children }: ModalCOntextProviderP
     setIsVisible(true);
   }, [])
 
-  function closeModal(event: CloseModalEvent) {
-    const eventTargetId = event.target.id;
-    if (eventTargetId !== 'modal-container') return;
-
+  function closeModal() {
     setIsVisible(false);
   }
 
@@ -39,13 +37,22 @@ export default function ModalContextProvider({ children }: ModalCOntextProviderP
     setIsVisible(false);
   }
 
+  function handleContanierClick(event: ModalClickEvent) {
+    if (event.target.id === 'modal-container') closeModal();
+  }
+
   return (
     <ModalContext.Provider value={{
       activeModal,
       endModal,
+      closeModal,
     }}>
-      {isVisible && (
-        <div onClick={closeModal} id="modal-container">
+      {modalContent && (
+        <div
+          onClick={handleContanierClick}
+          id="modal-container"
+          className={isVisible ? '' : 'hidden'}
+        >
           {modalContent}
         </div>
       )}
